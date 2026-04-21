@@ -20,7 +20,7 @@ const Product = () => {
     const [productData, setProductData] = useState(null);
 
     const fetchProductData = async () => {
-        const product = products.find(product => product._id === id);
+        const product = products.find(item => item._id.toString() === id);
         setProductData(product);
     }
 
