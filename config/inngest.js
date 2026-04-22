@@ -3,7 +3,7 @@ import { Inngest } from "inngest";
 import connectDb from "./db";
 import User from "@/models/User";
 
-export const inngest = new Inngest({ id: "quickcart-next" });
+export const inngest = new Inngest({ id: "quick-cart-app-next" });
 
 // ingest function to save user data to a database
 
