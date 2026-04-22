@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const cached = global.mongoose ;
 
 if(!cached){
-    cached = global.mongoose = {conn : null , Promise : null}
+    cached = global.mongoose = {conn : null , promise : null}
 }
 
 async function connectDb () {
@@ -11,16 +11,16 @@ async function connectDb () {
         return cached.conn
     }
 
-    if(!cached.Promise){
+    if(!cached.promise){
         const opts = {
             bufferCommands : false
         }
-        cached.Promise = mongoose.connect(`${process.env.MONGODB_URI}/quick-cart-app`,opts).then(mongoose => {
+        cached.promise = mongoose.connect(`${process.env.MONGODB_URI}/quick-cart-app`,opts).then(mongoose => {
             return mongoose
         })
     }
 
-    cached.conn = await cached.Promise
+    cached.conn = await cached.promise
     return cached.conn
 }
 
