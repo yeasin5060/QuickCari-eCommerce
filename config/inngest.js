@@ -4,7 +4,7 @@ import User from "@/models/User";
 
 export const inngest = new Inngest({ id: "quick-cart-app-next" });
 
-// ✅ Create user
+// ✅ inngest function to the create a user
 export const syncUserCreation = inngest.createFunction(
   {
     id: "sync-user-from-clerk",
