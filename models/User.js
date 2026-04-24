@@ -18,11 +18,11 @@ const userSchema = new mongoose.Schema({
         type : String,
         required : true,
     },
-    imageUrl : {
+    cartItems : {
         type : Object,
         default : {},
-    },
-},{minimize:false},{timestamps : true});
+    }
+},{minimize:false});
 
 const User = mongoose.models.user || mongoose.model('user' , userSchema);
 
