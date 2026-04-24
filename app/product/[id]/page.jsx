@@ -15,7 +15,7 @@ const Product = () => {
     const { id } = useParams();
 
     const { products, router, addToCart } = useAppContext()
-
+    
     const [mainImage, setMainImage] = useState(null);
     const [productData, setProductData] = useState(null);
 
@@ -27,7 +27,7 @@ const Product = () => {
     useEffect(() => {
         fetchProductData();
     }, [id, products.length])
-
+    
     return productData ? (<>
         <Navbar />
         <div className="px-6 md:px-16 lg:px-32 pt-14 space-y-10">

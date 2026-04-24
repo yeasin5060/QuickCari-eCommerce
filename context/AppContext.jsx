@@ -15,18 +15,24 @@ export const useAppContext = () => {
 export const AppContextProvider = (props) => {
 
     const currency = process.env.NEXT_PUBLIC_CURRENCY
-    const router = useRouter()
-    const {user} = useUser()
-    const {getToken} = useAuth()
+    const router = useRouter();
+    const {user} = useUser();
+    const {getToken} = useAuth();
 
-    const [products, setProducts] = useState([])
-    const [userData, setUserData] = useState(false)
-    const [isSeller, setIsSeller] = useState(false)
-    const [cartItems, setCartItems] = useState({})
+    const [products, setProducts] = useState([]);
+    const [userData, setUserData] = useState(false);
+    const [isSeller, setIsSeller] = useState(false);
+    const [cartItems, setCartItems] = useState({});
 
     const fetchProductData = async () => {
         try {
-            setProducts(productsDummyData)
+            const {data} = await axios.get('/api/product/list');
+            
+            if(data.success){
+                setProducts(data.product);
+            }else{
+                toast.error(data.message);
+            }
         } catch (error) {
             toast.error('product not found')
         }
@@ -37,16 +43,12 @@ export const AppContextProvider = (props) => {
             if (user?.publicMetadata?.role === 'seller') {
                 setIsSeller(true)
             }
-            console.log("USER:", user);
 
             const token = await getToken();
-            console.log("TOKEN:", token);
 
             const { data } = await axios.get('/api/user/data', {
                 headers: { Authorization: `Bearer ${token}` }
             });
-
-            console.log("RESPONSE:", data);
 
             if (data.success) {
                 setUserData(data.user);
@@ -61,16 +63,17 @@ export const AppContextProvider = (props) => {
 
     const addToCart = async (itemId) => {
 
-        let cartData = structuredClone(cartItems);
-        if (cartData[itemId]) {
-            cartData[itemId] += 1;
-        }
-        else {
-            cartData[itemId] = 1;
-        }
-        setCartItems(cartData);
+    let cartData = structuredClone(cartItems || {}); // ✅ fix
 
+    if (cartData[itemId]) {
+        cartData[itemId] += 1;
+    } else {
+        cartData[itemId] = 1;
     }
+
+    setCartItems(cartData);
+    toast.success('Item added to cart');
+}
 
     const updateCartQuantity = async (itemId, quantity) => {
 
