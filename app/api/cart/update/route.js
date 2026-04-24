@@ -9,7 +9,7 @@ export async function POST (request) {
         const {cartData} = await request.json();
 
         await connectDb();
-        const user = await User.findById({userId});
+        const user = await User.findById(userId);
 
         user.cartItems = cartData
         await user.save();
