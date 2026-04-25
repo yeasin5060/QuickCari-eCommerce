@@ -16,7 +16,7 @@ export async function POST(request) {
 
         const amount = await items.reduce(async(acc , item) => {
             const product = await Product.findById(item.product);
-            return acc + product.offerPrice * item.quantity
+            return await acc + product.offerPrice * item.quantity
         },0);
 
         await inngest.send({
@@ -35,7 +35,7 @@ export async function POST(request) {
         user.cartItems = {};
         await user.save();
 
-        return NextResponse.json({success : ture , message : 'Order placed'});
+        return NextResponse.json({success : true , message : 'Order placed'});
     } catch (error) {
         console.log(error);
         return NextResponse.json({success : false , message : error.message});

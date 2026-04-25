@@ -1,6 +1,7 @@
 import { Inngest } from "inngest";
 import connectDb from "./db";
 import User from "@/models/User";
+import Order from "@/models/Order";
 
 export const inngest = new Inngest({ id: "quick-cart-app-next" });
 
@@ -72,8 +73,8 @@ export const createUserOrder = inngest.createFunction(
     triggers: [{ event: "order/created" }],
   },
 
-  async (events)=> {
-    const orders = await events.map((event)=>{
+  async ({events})=> {
+    const orders = events.map((event)=>{
       return {
         userId : event.data.userId,
         items : event.data.items,
@@ -83,7 +84,7 @@ export const createUserOrder = inngest.createFunction(
       }
     })
     await connectDb();
-    await orders.insertMany(orders);
+    await Order.insertMany(orders);
 
     return {success : true, processoed : orders.length}
   }
