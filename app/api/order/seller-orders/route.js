@@ -1,4 +1,5 @@
 import connectDb from "@/config/db";
+import authSeller from "@/lib/authSeller";
 import Address from "@/models/Address";
 import Order from "@/models/Order";
 import Product from "@/models/Product";
@@ -8,12 +9,15 @@ import { NextResponse } from "next/server";
 export async function GET(request) {
     try {
         const {userId} = getAuth(request);
+        const isSeller = await authSeller(userId);
 
+        if(!isSeller){
+            return NextResponse.json({success : false , message : 'not authorized'});
+        }
         await connectDb();
         Address.length
-        Product.length
 
-        const orders = await Order.find({userId}).populate("address").populate("items.product");
+        const orders = await Order.find({}).populate("address").populate("items.product");
         return NextResponse.json({success : true , orders});
     } catch (error) {
         return NextResponse.json({success : false , message : error.message});
