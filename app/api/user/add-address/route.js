@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 export async function POST(request) {
     try {
         const {userId} = getAuth(request);
-        const {address} = request.json();
+        const {address} = await request.json();
 
         await connectDb();
         const newAddress = await Address.create({...address , userId});
