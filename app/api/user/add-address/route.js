@@ -1,6 +1,5 @@
 import connectDb from "@/config/db";
 import Address from "@/models/Address";
-import User from "@/models/User";
 import { getAuth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
